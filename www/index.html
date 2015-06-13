@@ -48,22 +48,13 @@
 
 <script type="text/javascript">
   function index_view() {
-    var jogadas = {jogada1: "", jogada2: ""};
-
     $("button").on("click", function() {
       var jogada = $(this).data("valor");
-      if (jogadas.jogada1 == "")
-        jogadas.jogada1 = jogada;
-      else
-      {
-        jogadas.jogada2 = jogada;
-
-        $.post("http://192.168.43.166/api/analisarjogada", jogadas).success(function(resposta) {
+        $.post("http://192.168.43.166:1110/api/analisarjogada", {"jogada":jogada}).success(function(resposta) {
           $("#jogador_vencedor").text(resposta.jogadaVencedora);
-          jogadas = {jogada1: "", jogada2: ""};
         });
       }
-    });
+    );
   };
 
   index_view();
