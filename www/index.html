@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
+
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <script src="lib/jquery/dist/jquery.min.js"></script>
+  <script src="cordova.js"></script>
+  <script src="js/app.js"></script>
+</head>
+<body ng-app="starter">
+  <ion-pane>
+  <ion-header-bar class="bar-stable">
+  <h1 class="title">Jokenp&#xF4;</h1>
+</ion-header-bar>
+<ion-content>
+
+<button data-valor="tesoura" class="button button-full button-assertive ">
+  <i class="icon ion-scissors"></i>
+  Tesoura</button>
+  <button data-valor="pedra" class="button  button-full button-positive">
+    <i class="icon ion-cube"></i>
+    Pedra
+  </button>
+  <button data-valor="papel" class="button button-full button-balanced">
+    <i class="icon ion-document"></i>
+    Papel
+  </button>
+
+  <button id="jogador_vencedor" class="button button-full button-dark">
+  </button>
+
+
+</ion-content>
+<div class="tabs tabs-icon-only">
+  <a class="tab-item">
+    Offline
+  </a>
+  <a class="tab-item">
+    Online
+  </a>
+</div>
+</ion-pane>
+
+<script type="text/javascript">
+  function index_view() {
+    var jogadas = {jogada1: "", jogada2: ""};
+
+    $("button").on("click", function() {
+      var jogada = $(this).data("valor");
+      if (jogadas.jogada1 == "")
+        jogadas.jogada1 = jogada;
+      else
+      {
+        jogadas.jogada2 = jogada;
+
+        $.post("http://192.168.43.166/api/analisarjogada", jogadas).success(function(resposta) {
+          $("#jogador_vencedor").text(resposta.jogadaVencedora);
+          jogadas = {jogada1: "", jogada2: ""};
+        });
+      }
+    });
+  };
+
+  index_view();
+</script>
+</body>
+</html>
